@@ -1,4 +1,4 @@
-//Enum es un tipo de datos que solo permite crear los objetos que se hayan definido en el.
+//Enum es un tipo de dato que solo permite crear los objetos que se hayan definido en el.
 //Los enumerados son objetos y no Strings definidos dentro de su misma clase con constructor privado
 // y si tienen atributos estos solo tienen metodos getter para obtener el valor del atributo.
 
