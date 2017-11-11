@@ -1,5 +1,7 @@
 package ventanas;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
@@ -11,6 +13,9 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -31,8 +36,11 @@ public class AppTwo extends JFrame{
 	private JCheckBox dollarSign, commaSeparator;
 	private JRadioButton addNums, substractNums, multNums, divideNums;
 	private JSlider howManyTimes;
-	private JPanel principal;
+	private JPanel principal, menuPanel;
 	private ImageIcon img;
+	private JMenuBar menu;
+	private JMenu archivo, editar, ayuda;
+	private JMenuItem itemArchivo, archivoNuevo;
 	
 	double number1, number2, totalCalc;
 	
@@ -54,11 +62,10 @@ public class AppTwo extends JFrame{
 		this.setSize(400, 250);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Operaciones. JFV");
+		this.setTitle("Operaciones. CopyLeft(L) JFV");
 		this.setResizable(false);
 		img = new ImageIcon(getClass().getResource("/img/photo.jpg"));
 		this.setIconImage(img.getImage());
-		
 		
 		//Listeners
 		ListenForButton lForButton = new ListenForButton();
@@ -66,7 +73,7 @@ public class AppTwo extends JFrame{
 		
 		
 		//Panel Principal
-		principal = new JPanel();
+		principal = new JPanel(new FlowLayout());
 		
 		btnCalcular = new JButton("Calcular");
 		btnCalcular.addActionListener(lForButton);
@@ -110,8 +117,24 @@ public class AppTwo extends JFrame{
 		howManyTimes.setPaintLabels(true);
 		howManyTimes.addChangeListener(lForSlider);
 		
+		//Menu
+		menuPanel = new JPanel(new BorderLayout());
+		menu = new JMenuBar();
+		archivo = new JMenu("archivo");
+		editar = new JMenu("editar");
+		ayuda = new JMenu("aYuda");
 		
+		itemArchivo = new JMenuItem("Cargar archivo...");
+		archivoNuevo = new JMenuItem("Nuevo");
+		archivo.add(archivoNuevo);
+		archivo.add(itemArchivo);
+		
+		menu.add(archivo);
+		menu.add(editar);
+		menu.add(ayuda);
+		menuPanel.add(menu);
 		//Añadir componentes al panel principal
+		//principal.add(menu);
 		principal.add(btnCalcular);
 		principal.add(lblTexto1);
 		principal.add(txtCampo1);
@@ -125,7 +148,9 @@ public class AppTwo extends JFrame{
 		
 		
 		//Añadir componentes al frame
-		this.add(principal);
+		this.add(menuPanel, BorderLayout.NORTH);
+		this.add(principal, BorderLayout.CENTER);
+		this.getRootPane().setDefaultButton(btnCalcular);
 	}
 	
 	
@@ -161,6 +186,8 @@ public class AppTwo extends JFrame{
 								"Respuesta", JOptionPane.INFORMATION_MESSAGE);
 					}
 					
+					txtCampo1.setText("");txtCampo2.setText("");
+					txtCampo1.requestFocus();
 				} catch(NumberFormatException ex){
 					JOptionPane.showMessageDialog(AppTwo.this, "Por favor ingresa la información"
 							+ " correcta", "Error", JOptionPane.ERROR_MESSAGE);
